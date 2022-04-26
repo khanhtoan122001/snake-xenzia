@@ -9,9 +9,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.coEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SnakeHead extends GameObject {
+    final float timePause = 0.3f;
+    float timeWait = 0;
 
     public SnakeHead() {
         super();
@@ -19,66 +22,95 @@ public class SnakeHead extends GameObject {
         this.setSpeed(5f);
         this.setDim(new Vector2(0, 1));
         screen = new Rectangle();
-        width = 8;
-        height = 8;
+        width = BlockSize;
+        height = BlockSize;
     }
 
     protected void toInScreen() {
-        if(pos.x > screen.x + screen.width){
+        if (pos.x >= screen.x + screen.width) {
+            updateLastPos();
             pos = new Vector2(pos.x - screen.width, pos.y);
         }
-        if(pos.x < screen.x){
+        else if (pos.x < screen.x) {
+            updateLastPos();
             pos = new Vector2(pos.x + screen.width, pos.y);
         }
-        if(pos.y > screen.y + screen.height){
+        else if (pos.y >= screen.y + screen.height) {
+            updateLastPos();
             pos = new Vector2(pos.x, pos.y - screen.height);
         }
-        if(pos.y < screen.y){
+        else if (pos.y <= screen.y) {
+            updateLastPos();
             pos = new Vector2(pos.x, pos.y + screen.height);
         }
     }
 
     @Override
-    public void update(float deltaTime, List<GameObject> objects) {
+    public void update(int frameCount, List<GameObject> objects) {
+
+        List<coEvent> events = new ArrayList<>();
+
         if (!isPause) {
             onKeysPressed();
-            setPos(new Vector2(pos.x + deltaTime * speed * dim.x * width,
-                    pos.y + deltaTime * speed * dim.y * height));
+
+            if(frameCount % 8 == 0){
+
+                dx += dim.x * width;
+                dy += dim.y * height;
+
+                updateLastPos();
+
+                setPos(new Vector2(pos.x + dx, pos.y + dy));
+
+                dx = dy = 0;
+
+            }
+
             toInScreen();
+
+            calcCollision(objects, events);
+
+            if (events.size() != 0) {
+
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         createGraphics();
-        sb.draw(tex, pos.x, pos.y);
+        sprite.setPosition((int)(pos.x / 16) * 16 , (int)(pos.y / 16) * 16);
+        sprite.draw(sb);
+        //sb.draw(tex, pos.x, pos.y);
     }
 
-    @Override
-    public void calcCollision(List<GameObject> objects, List<coEvent> coEvents) {
+    public boolean onKeysPressed() {
+        lastPos = dim;
 
-    }
-
-    public void onKeysPressed() {
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            if(this.getDim().x == 0){
-                this.setDim(new Vector2(-1,0));
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if (lastPos.x == 0) {
+                this.setDim(new Vector2(-1, 0));
+                return true;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            if(this.getDim().x == 0){
-                this.setDim(new Vector2(1,0));
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            if (lastPos.x == 0) {
+                this.setDim(new Vector2(1, 0));
+                return true;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            if(this.getDim().y == 0){
-                this.setDim(new Vector2(0,1));
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (lastPos.y == 0) {
+                this.setDim(new Vector2(0, 1));
+                return true;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            if(this.getDim().y == 0){
-                this.setDim(new Vector2(0,-1));
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            if (lastPos.y == 0) {
+                this.setDim(new Vector2(0, -1));
+                return true;
             }
         }
+        return false;
     }
 }

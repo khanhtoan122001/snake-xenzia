@@ -10,11 +10,17 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
+
+
 public abstract class GameObject {
-    protected Vector2 pos, dim;
+    protected static final int BlockSize = 16;
+
+    protected Vector2 pos, dim, lastPos;
     protected float speed;
     protected int health;
     protected Rectangle screen;
+    protected Rectangle bounds;
+    protected float dx, dy;
 
     protected Pixmap pixmap;
     protected Texture tex;
@@ -46,15 +52,26 @@ public abstract class GameObject {
 
     }
 
-    public void update(float deltaTime, List<GameObject> objects) {
-        if (!isPause)
-            setPos(new Vector2(pos.x + deltaTime * speed * dim.x * width,
-                    pos.y + deltaTime * speed * dim.y * height));
+    public void update(int frameCount, List<GameObject> objects) {
+
     }
 
     public abstract void render(SpriteBatch sb);
 
-    public abstract void calcCollision(List<GameObject> objects, List<coEvent> coEvents);
+    public void calcCollision(List<GameObject> objects, List<coEvent> coEvents){
+
+    }
+
+    public void updateLastPos(){
+        setLastPos(getPos());
+    }
+
+    // get
+
+
+    public Vector2 getLastPos() {
+        return lastPos;
+    }
 
     public Vector2 getPos() {
         return pos;
@@ -82,6 +99,16 @@ public abstract class GameObject {
 
     public Rectangle getScreen() {
         return screen;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    // set
+
+    public void setLastPos(Vector2 lastPos) {
+        this.lastPos = lastPos;
     }
 
     public void setPos(Vector2 pos) {
@@ -115,6 +142,5 @@ public abstract class GameObject {
     public void setScreen(Rectangle screen) {
         this.screen = screen;
     }
-
 
 }

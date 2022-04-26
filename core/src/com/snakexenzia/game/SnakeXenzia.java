@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
+import com.snakexenzia.game.gameobjects.map.Background;
 import com.snakexenzia.game.gameobjects.player.Snake;
 
 import java.util.ArrayList;
@@ -26,10 +27,14 @@ public class SnakeXenzia extends ApplicationAdapter {
     Rectangle screen;
     NormalFood normalFood;
     List<GameObject> objects;
+    Background background;
+    int frameCount = 0;
 
     @Override
     public void create() {
-        objects = new ArrayList<GameObject>();
+        objects = new ArrayList<>();
+
+        background = new Background();
 
         snake = new Snake();
 
@@ -39,7 +44,7 @@ public class SnakeXenzia extends ApplicationAdapter {
 
         spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 640, 480);
         spawnNormalFood();
 
         objects.addAll(snake.getObjects());
@@ -47,20 +52,22 @@ public class SnakeXenzia extends ApplicationAdapter {
 
     private void spawnNormalFood() {
         normalFood = new NormalFood();
-        int x = MathUtils.random(0, Gdx.graphics.getWidth() - 8);
-        int y = MathUtils.random(0, Gdx.graphics.getHeight() - 8);
-        normalFood.setPos(new Vector2(x, y));
+        int x = (int)(MathUtils.random(0, Gdx.graphics.getWidth() - 16)) / 16;
+        int y = (int)(MathUtils.random(0, Gdx.graphics.getHeight() - 16)) / 16;
+        normalFood.setPos(new Vector2(x * 16, y * 16));
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
+        frameCount++;
         camera.update();
 
-        snake.update(Gdx.graphics.getDeltaTime(), objects);
+        snake.update(frameCount, objects);
+
 
         spriteBatch.begin();
+        background.render(spriteBatch);
         snake.render(spriteBatch);
         normalFood.render(spriteBatch);
         spriteBatch.end();

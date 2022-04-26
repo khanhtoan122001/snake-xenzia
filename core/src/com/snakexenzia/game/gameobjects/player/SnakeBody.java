@@ -3,8 +3,8 @@ package com.snakexenzia.game.gameobjects.player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
-import com.snakexenzia.game.gameobjects.coEvent;
 
 import java.util.List;
 
@@ -14,24 +14,23 @@ public class SnakeBody extends GameObject {
         super();
         this.setColor(Color.BLUE);
         screen = new Rectangle();
-        width = 8;
-        height = 8;
+        width = BlockSize;
+        height = BlockSize;
+    }
+
+    public void dimUpdate(GameObject object){
+        dim = object.getDim();
     }
 
     @Override
-    public void update(float deltaTime, List<GameObject> objects) {
-        if(!isPause){
+    public void update(int frameCount, List<GameObject> objects) {
 
-        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
-
-    }
-
-    @Override
-    public void calcCollision(List<GameObject> objects, List<coEvent> coEvents) {
-
+        createGraphics();
+        sprite.setPosition(pos.x, pos.y);
+        sprite.draw(sb);
     }
 }
