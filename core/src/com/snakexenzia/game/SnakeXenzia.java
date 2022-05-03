@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
 import com.snakexenzia.game.gameobjects.map.Background;
+import com.snakexenzia.game.gameobjects.map.Wall;
 import com.snakexenzia.game.gameobjects.player.Snake;
 
 import java.util.ArrayList;
@@ -29,10 +30,13 @@ public class SnakeXenzia extends ApplicationAdapter {
     List<GameObject> objects;
     Background background;
     int frameCount = 0;
+    Wall wall;
 
     @Override
     public void create() {
         objects = new ArrayList<>();
+
+        wall = new Wall();
 
         background = new Background();
 
@@ -44,14 +48,17 @@ public class SnakeXenzia extends ApplicationAdapter {
 
         spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
+
         camera.setToOrtho(false, 640, 480);
         spawnNormalFood();
 
         objects.addAll(snake.getObjects());
+        objects.add(normalFood);
     }
 
     private void spawnNormalFood() {
-        normalFood = new NormalFood();
+        if(normalFood == null)
+            normalFood = new NormalFood();
         int x = (int)(MathUtils.random(0, Gdx.graphics.getWidth() - 16)) / 16;
         int y = (int)(MathUtils.random(0, Gdx.graphics.getHeight() - 16)) / 16;
         normalFood.setPos(new Vector2(x * 16, y * 16));
@@ -65,11 +72,16 @@ public class SnakeXenzia extends ApplicationAdapter {
 
         snake.update(frameCount, objects);
 
+        if(snake.isEat){
+            spawnNormalFood();
+            snake.isEat = false;
+        }
 
         spriteBatch.begin();
         background.render(spriteBatch);
         snake.render(spriteBatch);
         normalFood.render(spriteBatch);
+        wall.render(spriteBatch);
         spriteBatch.end();
     }
 

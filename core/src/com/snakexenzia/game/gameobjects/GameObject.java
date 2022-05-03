@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,7 +60,16 @@ public abstract class GameObject {
     public abstract void render(SpriteBatch sb);
 
     public void calcCollision(List<GameObject> objects, List<coEvent> coEvents){
-
+        for (GameObject object:
+             objects) {
+            if(this.getBounds().overlaps(object.getBounds()) && !this.equals(object)){
+                coEvent co = new coEvent();
+                co.object = object;
+                co.nx = object.getDim().x;
+                co.ny = object.getDim().y;
+                coEvents.add(co);
+            }
+        }
     }
 
     public void updateLastPos(){
@@ -102,6 +112,7 @@ public abstract class GameObject {
     }
 
     public Rectangle getBounds() {
+        bounds = new Rectangle(pos.x,pos.y, BlockSize, BlockSize);
         return bounds;
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.coEvent;
+import com.snakexenzia.game.gameobjects.food.NormalFood;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class SnakeHead extends GameObject {
     final float timePause = 0.3f;
     float timeWait = 0;
+    public boolean isAddBody = false;
 
     public SnakeHead() {
         super();
@@ -24,6 +26,7 @@ public class SnakeHead extends GameObject {
         screen = new Rectangle();
         width = BlockSize;
         height = BlockSize;
+        createGraphics();
     }
 
     protected void toInScreen() {
@@ -64,21 +67,26 @@ public class SnakeHead extends GameObject {
 
                 dx = dy = 0;
 
+                toInScreen();
+
+                calcCollision(objects, events);
+
+                if (events.size() != 0) {
+                    for (coEvent co :
+                            events) {
+                        if(co.object.getClass().getName().equals(NormalFood.class.getName())){
+                            isAddBody = true;
+                        }
+                    }
+                }
             }
 
-            toInScreen();
 
-            calcCollision(objects, events);
-
-            if (events.size() != 0) {
-
-            }
         }
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        createGraphics();
         sprite.setPosition((int)(pos.x / 16) * 16 , (int)(pos.y / 16) * 16);
         sprite.draw(sb);
         //sb.draw(tex, pos.x, pos.y);

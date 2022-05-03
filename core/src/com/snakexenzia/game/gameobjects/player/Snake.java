@@ -19,6 +19,8 @@ public class Snake {
 
     List<SnakeBody> body;
 
+    public boolean isEat = false;
+
     public Snake() {
         super();
         head = new SnakeHead();
@@ -28,10 +30,10 @@ public class Snake {
         body = new ArrayList<>();
         for(int i = 0; i < 3; i++){
             if(i == 0){
-                AddBody(head, Color.BLACK);
+                AddBody(head);
             }
             else {
-                AddBody(body.get(body.size() - 1), Color.BROWN);
+                AddBody(body.get(body.size() - 1));
             }
         }
         screen = new Rectangle();
@@ -41,7 +43,7 @@ public class Snake {
         head.setScreen(screen);
     }
 
-    public void AddBody(GameObject object, Color color) {
+    public void AddBody(GameObject object) {
         SnakeBody newNode = new SnakeBody();
 
         Vector2 dim = object.getDim();
@@ -58,7 +60,6 @@ public class Snake {
         newNode.updateLastPos();
         newNode.setDim(dim);
         newNode.setScreen(screen);
-        newNode.setColor(color);
 
         body.add(newNode);
     }
@@ -66,6 +67,12 @@ public class Snake {
     public void update(int frameCount, List<GameObject> objects) {
 
         head.update(frameCount, objects);
+
+        if(head.isAddBody){
+            AddBody(body.get(body.size() - 1));
+            head.isAddBody = false;
+            isEat = true;
+        }
 
         if(frameCount % 8 ==0){
             if(head.getDim().x != 0 || head.getDim().y != 0){
@@ -78,7 +85,6 @@ public class Snake {
                 }
             }
         }
-
     }
 
     public List<GameObject> getObjects() {

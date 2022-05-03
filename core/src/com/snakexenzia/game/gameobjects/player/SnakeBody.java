@@ -12,10 +12,11 @@ public class SnakeBody extends GameObject {
 
     public SnakeBody() {
         super();
-        this.setColor(Color.BLUE);
+        this.setColor(Color.BROWN);
         screen = new Rectangle();
         width = BlockSize;
         height = BlockSize;
+        createGraphics();
     }
 
     public void dimUpdate(GameObject object){
@@ -29,7 +30,6 @@ public class SnakeBody extends GameObject {
 
     @Override
     public void render(SpriteBatch sb) {
-        createGraphics();
         sprite.setPosition(pos.x, pos.y);
         sprite.draw(sb);
     }
