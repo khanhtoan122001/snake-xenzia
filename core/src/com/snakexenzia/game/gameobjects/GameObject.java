@@ -14,7 +14,9 @@ import java.util.List;
 
 
 public abstract class GameObject {
-    protected static final int BlockSize = 16;
+    public static final int BlockSize = 32;
+    public static final int frameSpeed = 8;
+
 
     protected Vector2 pos, dim, lastPos;
     protected float speed;
@@ -44,8 +46,8 @@ public abstract class GameObject {
 
         pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
-        pixmap.fill();
-        pixmap.drawRectangle(0, 0, width, height);
+//        pixmap.fill();
+        pixmap.fillRectangle(3, 3, width - 6, height - 6);
 
         tex = new Texture(pixmap);
 
@@ -53,7 +55,7 @@ public abstract class GameObject {
 
     }
 
-    public void update(int frameCount, List<GameObject> objects) {
+    public void update(List<GameObject> objects) {
 
     }
 
@@ -62,6 +64,8 @@ public abstract class GameObject {
     public void calcCollision(List<GameObject> objects, List<coEvent> coEvents){
         for (GameObject object:
              objects) {
+            if(this == object)
+                continue;
             if(this.getBounds().overlaps(object.getBounds()) && !this.equals(object)){
                 coEvent co = new coEvent();
                 co.object = object;
@@ -70,6 +74,10 @@ public abstract class GameObject {
                 coEvents.add(co);
             }
         }
+    }
+
+    public void dispose(){
+        tex.dispose();
     }
 
     public void updateLastPos(){

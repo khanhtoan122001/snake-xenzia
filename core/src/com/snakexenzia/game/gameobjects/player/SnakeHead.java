@@ -17,6 +17,7 @@ public class SnakeHead extends GameObject {
     final float timePause = 0.3f;
     float timeWait = 0;
     public boolean isAddBody = false;
+    private boolean isCanChange = true;
 
     public SnakeHead() {
         super();
@@ -31,94 +32,100 @@ public class SnakeHead extends GameObject {
 
     protected void toInScreen() {
         if (pos.x >= screen.x + screen.width) {
-            updateLastPos();
+            //updateLastPos();
             pos = new Vector2(pos.x - screen.width, pos.y);
+            return;
         }
-        else if (pos.x < screen.x) {
-            updateLastPos();
+        if (pos.x <= screen.x - BlockSize) {
+            //updateLastPos();
             pos = new Vector2(pos.x + screen.width, pos.y);
+            return;
         }
-        else if (pos.y >= screen.y + screen.height) {
-            updateLastPos();
+        if (pos.y >= screen.y + screen.height) {
+            //updateLastPos();
             pos = new Vector2(pos.x, pos.y - screen.height);
+            return;
         }
-        else if (pos.y <= screen.y) {
-            updateLastPos();
+        if (pos.y <= screen.y - BlockSize) {
+            //updateLastPos();
             pos = new Vector2(pos.x, pos.y + screen.height);
         }
     }
 
     @Override
-    public void update(int frameCount, List<GameObject> objects) {
+    public void update(List<GameObject> objects) {
 
         List<coEvent> events = new ArrayList<>();
 
         if (!isPause) {
-            onKeysPressed();
 
-            if(frameCount % 8 == 0){
+            isCanChange = true;
+            dx += dim.x * width;
+            dy += dim.y * height;
 
-                dx += dim.x * width;
-                dy += dim.y * height;
+            updateLastPos();
 
-                updateLastPos();
+            setPos(new Vector2(pos.x + dx, pos.y + dy));
 
-                setPos(new Vector2(pos.x + dx, pos.y + dy));
+            dx = dy = 0;
 
-                dx = dy = 0;
+            toInScreen();
 
-                toInScreen();
+            calcCollision(objects, events);
 
-                calcCollision(objects, events);
-
-                if (events.size() != 0) {
-                    for (coEvent co :
-                            events) {
-                        if(co.object.getClass().getName().equals(NormalFood.class.getName())){
-                            isAddBody = true;
-                        }
+            if (events.size() != 0) {
+                for (coEvent co :
+                        events) {
+                    if (co.object.getClass().getName().equals(NormalFood.class.getName())) {
+                        isAddBody = true;
+                        break;
                     }
                 }
             }
-
-
         }
+    }
+
+    public void keysPressed(){
+        if(isCanChange)
+            onKeysPressed();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        sprite.setPosition((int)(pos.x / 16) * 16 , (int)(pos.y / 16) * 16);
+        sprite.setPosition(pos.x, pos.y);
         sprite.draw(sb);
         //sb.draw(tex, pos.x, pos.y);
     }
 
-    public boolean onKeysPressed() {
+    public void onKeysPressed() {
         lastPos = dim;
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             if (lastPos.x == 0) {
                 this.setDim(new Vector2(-1, 0));
-                return true;
+                isCanChange = false;
+                return;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             if (lastPos.x == 0) {
                 this.setDim(new Vector2(1, 0));
-                return true;
+                isCanChange = false;
+                return;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (lastPos.y == 0) {
                 this.setDim(new Vector2(0, 1));
-                return true;
+                isCanChange = false;
+                return;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             if (lastPos.y == 0) {
                 this.setDim(new Vector2(0, -1));
-                return true;
+                isCanChange = false;
             }
         }
-        return false;
     }
 }

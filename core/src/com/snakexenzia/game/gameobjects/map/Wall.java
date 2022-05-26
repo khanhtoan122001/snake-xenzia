@@ -8,6 +8,10 @@ import com.snakexenzia.game.gameobjects.GameObject;
 
 public class Wall extends GameObject {
 
+    public Wall(){
+        createGraphics();
+    }
+
     @Override
     protected void createGraphics() {
         tex = new Texture(Gdx.files.internal("wall-block.png"));
@@ -16,7 +20,6 @@ public class Wall extends GameObject {
 
     @Override
     public void render(SpriteBatch sb) {
-        createGraphics();
         sprite.setPosition(64,64);
         sprite.draw(sb);
     }

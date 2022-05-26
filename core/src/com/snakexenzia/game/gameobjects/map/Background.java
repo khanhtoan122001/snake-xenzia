@@ -15,6 +15,10 @@ public class Background {
     protected Sprite sprite;
     protected Color color;
 
+    public Background(){
+        createGraphics();
+    }
+
     protected void createGraphics() {
 
         pixmap = new Pixmap(640, 480, Pixmap.Format.RGBA8888);
@@ -26,7 +30,6 @@ public class Background {
     }
 
     public void render(SpriteBatch sb){
-        createGraphics();
         sprite.setPosition(0,0);
         sprite.draw(sb);
     }

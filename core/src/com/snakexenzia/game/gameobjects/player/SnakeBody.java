@@ -24,7 +24,7 @@ public class SnakeBody extends GameObject {
     }
 
     @Override
-    public void update(int frameCount, List<GameObject> objects) {
+    public void update(List<GameObject> objects) {
 
     }
 
