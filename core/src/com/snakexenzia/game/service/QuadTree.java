@@ -16,14 +16,14 @@ import java.util.List;
 public class QuadTree
 {
     //  --- Configuration
-    private static int MAX_OBJECTS_BY_NODE = 10;
-    private static int MAX_LEVEL = 4;
+    private static final int MAX_OBJECTS_BY_NODE = 20;
+    private static final int MAX_LEVEL = 4;
     //  ---
 
-    private int level;
-    private List<GameObject> objects;
-    private Rectangle bounds;
-    private QuadTree[] nodes;
+    private final int level;
+    private final List<GameObject> objects;
+    private final Rectangle bounds;
+    private final QuadTree[] nodes;
 
     public QuadTree(int level, Rectangle bounds)
     {

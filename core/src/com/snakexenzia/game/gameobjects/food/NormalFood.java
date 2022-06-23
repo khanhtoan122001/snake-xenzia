@@ -46,7 +46,7 @@ public class NormalFood extends GameObject {
     }
 
     @Override
-    public void update(List<GameObject> objects) {
+    public void update(List<GameObject> objects, List<coEvent> events) {
 
     }
 

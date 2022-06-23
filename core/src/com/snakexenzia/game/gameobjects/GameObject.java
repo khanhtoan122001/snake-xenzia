@@ -55,15 +55,14 @@ public abstract class GameObject {
 
     }
 
-    public void update(List<GameObject> objects) {
+    public void update(List<GameObject> objects, List<coEvent> events) {
 
     }
 
     public abstract void render(SpriteBatch sb);
 
     public void calcCollision(List<GameObject> objects, List<coEvent> coEvents){
-        for (GameObject object:
-             objects) {
+        for (GameObject object: objects) {
             if(this == object)
                 continue;
             if(this.getBounds().overlaps(object.getBounds()) && !this.equals(object)){

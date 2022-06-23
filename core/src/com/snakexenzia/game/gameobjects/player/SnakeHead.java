@@ -8,14 +8,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.coEvent;
-import com.snakexenzia.game.gameobjects.food.NormalFood;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SnakeHead extends GameObject {
-    final float timePause = 0.3f;
-    float timeWait = 0;
     public boolean isAddBody = false;
     private boolean isCanChange = true;
 
@@ -31,58 +28,37 @@ public class SnakeHead extends GameObject {
     }
 
     protected void toInScreen() {
-        if (pos.x >= screen.x + screen.width) {
-            //updateLastPos();
-            pos = new Vector2(pos.x - screen.width, pos.y);
+        if (pos.x == screen.width) {
+            pos = new Vector2(0, pos.y);
             return;
         }
-        if (pos.x <= screen.x - BlockSize) {
-            //updateLastPos();
-            pos = new Vector2(pos.x + screen.width, pos.y);
+        if (pos.x == -BlockSize) {
+            pos = new Vector2(screen.width, pos.y);
             return;
         }
-        if (pos.y >= screen.y + screen.height) {
-            //updateLastPos();
-            pos = new Vector2(pos.x, pos.y - screen.height);
+        if (pos.y == screen.height) {
+            pos = new Vector2(pos.x, 0);
             return;
         }
-        if (pos.y <= screen.y - BlockSize) {
-            //updateLastPos();
-            pos = new Vector2(pos.x, pos.y + screen.height);
+        if (pos.y == -BlockSize) {
+            pos = new Vector2(pos.x, screen.height);
         }
     }
 
     @Override
-    public void update(List<GameObject> objects) {
+    public void update(List<GameObject> objects, List<coEvent> events) {
+        isCanChange = true;
+        dx += dim.x * width;
+        dy += dim.y * height;
 
-        List<coEvent> events = new ArrayList<>();
+        updateLastPos();
 
-        if (!isPause) {
+        setPos(new Vector2(pos.x + dx, pos.y + dy));
 
-            isCanChange = true;
-            dx += dim.x * width;
-            dy += dim.y * height;
+        toInScreen();
 
-            updateLastPos();
+        dx = dy = 0;
 
-            setPos(new Vector2(pos.x + dx, pos.y + dy));
-
-            dx = dy = 0;
-
-            toInScreen();
-
-            calcCollision(objects, events);
-
-            if (events.size() != 0) {
-                for (coEvent co :
-                        events) {
-                    if (co.object.getClass().getName().equals(NormalFood.class.getName())) {
-                        isAddBody = true;
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     public void keysPressed(){
@@ -94,7 +70,6 @@ public class SnakeHead extends GameObject {
     public void render(SpriteBatch sb) {
         sprite.setPosition(pos.x, pos.y);
         sprite.draw(sb);
-        //sb.draw(tex, pos.x, pos.y);
     }
 
     public void onKeysPressed() {

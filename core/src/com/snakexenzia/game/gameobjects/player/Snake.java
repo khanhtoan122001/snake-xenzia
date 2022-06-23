@@ -1,28 +1,43 @@
 package com.snakexenzia.game.gameobjects.player;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
+import com.snakexenzia.game.gameobjects.coEvent;
+import com.snakexenzia.game.gameobjects.food.NormalFood;
+import com.snakexenzia.game.gameobjects.items.BigFood;
+import com.snakexenzia.game.gameobjects.items.BonusPoint;
+import com.snakexenzia.game.gameobjects.items.CutInHalf;
+import com.snakexenzia.game.gameobjects.items.SlowDown;
+import com.snakexenzia.game.gameobjects.items.SpeedUp;
+import com.snakexenzia.game.gameobjects.map.Wall;
 import com.snakexenzia.game.service.QuadTree;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Snake {
 
+    private static final Object TAG = "snake";
     Rectangle screen;
 
     public SnakeHead head;
 
     public List<SnakeBody> body;
 
+    public boolean isPause = false;
+
     private int speed = 0;
 
     public boolean isEat = false;
+
+    public boolean isCutHalf = false;
+
+    public int score = 0;
+
+    private int boot = 0;
 
     public Snake() {
         super();
@@ -94,30 +109,93 @@ public class Snake {
         // update
         head.keysPressed();
 
-        if(head.isAddBody){
-            AddBody(body.get(body.size() - 1));
-            objects.add(body.get(body.size() - 1));
-            speed = body.size() / 10;
-            if(speed > 5)
-                speed = 5;
-            head.isAddBody = false;
-            isEat = true;
-        }
+        if(!isPause){
+            if(frameCount % (GameObject.frameSpeed - (speed + boot)) == 0){
+                List<coEvent> events = new ArrayList<>();
 
-        if(frameCount % (GameObject.frameSpeed - speed) == 0){
+                head.update(objectList, events);
 
-            head.update(objectList);
+                if(head.getDim().x != 0 || head.getDim().y != 0){
+                    body.get(0).updateLastPos();
+                    body.get(0).setPos(new Vector2(head.getLastPos()));
 
-            if(head.getDim().x != 0 || head.getDim().y != 0){
-                body.get(0).updateLastPos();
-                body.get(0).setPos(new Vector2(head.getLastPos()));
+                    for(int i = 1; i < body.size(); i++){
+                        body.get(i).updateLastPos();
+                        body.get(i).setPos(new Vector2(body.get(i - 1).getLastPos()));
+                    }
+                }
 
-                for(int i = 1; i < body.size(); i++){
-                    body.get(i).updateLastPos();
-                    body.get(i).setPos(new Vector2(body.get(i - 1).getLastPos()));
+                head.calcCollision(objects, events);
+
+                if (events.size() != 0) {
+                    for (coEvent co : events) {
+                        String coClassName = co.object.getClass().getName();
+
+                        if (coClassName.equals(NormalFood.class.getName())) {
+                            AddBody(objects);
+                            break;
+                        }
+                        if(coClassName.equals(Wall.class.getName())){
+                            Pause();
+                            break;
+                        }
+                        if(coClassName.equals(SnakeBody.class.getName())){
+                            Pause();
+                            break;
+                        }
+                        if(coClassName.equals(SpeedUp.class.getName())){
+                            boot = 1;
+                            break;
+                        }
+                        if(coClassName.equals(SlowDown.class.getName())){
+                            boot = -1;
+                            break;
+                        }
+                        if(coClassName.equals(CutInHalf.class.getName())){
+                            if(body.size() < 4) break;
+                            CutHalfBody();
+                            break;
+                        }
+                        if(coClassName.equals(BigFood.class.getName())){
+                            break;
+                        }
+                        if(coClassName.equals(BonusPoint.class.getName())){
+                            break;
+                        }
+                    }
                 }
             }
         }
+
+    }
+
+    private void CutHalfBody() {
+        int size = body.size();
+        for (int i = 0; i < size / 2; i++) {
+            body.remove(body.size() - 1);
+        }
+        isCutHalf = true;
+    }
+
+    private void Pause() {
+        List<GameObject> objects = getObjects();
+
+        for (GameObject object : objects) {
+            object.setPos(object.getLastPos());
+        }
+
+        isPause = true;
+    }
+
+    public void AddBody(List<GameObject> objects){
+        AddBody(body.get(body.size() - 1));
+        objects.add(body.get(body.size() - 1));
+        score++;
+        speed = score / 10;
+        if(speed > 5)
+            speed = 5;
+        head.isAddBody = false;
+        isEat = true;
     }
 
     public List<GameObject> getObjects() {

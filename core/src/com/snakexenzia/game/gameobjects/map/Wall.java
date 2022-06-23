@@ -20,7 +20,7 @@ public class Wall extends GameObject {
 
     @Override
     public void render(SpriteBatch sb) {
-        sprite.setPosition(64,64);
+        sprite.setPosition(pos.x, pos.y);
         sprite.draw(sb);
     }
 }

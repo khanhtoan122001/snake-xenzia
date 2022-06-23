@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.snakexenzia.game.gameobjects.GameObject;
+import com.snakexenzia.game.gameobjects.coEvent;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class SnakeBody extends GameObject {
     }
 
     @Override
-    public void update(List<GameObject> objects) {
+    public void update(List<GameObject> objects, List<coEvent> events) {
 
     }
 

@@ -7,16 +7,20 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
+import com.snakexenzia.game.gameobjects.items.CutInHalf;
+import com.snakexenzia.game.gameobjects.items.SpeedUp;
 import com.snakexenzia.game.gameobjects.map.Background;
 import com.snakexenzia.game.gameobjects.map.Wall;
 import com.snakexenzia.game.gameobjects.player.Snake;
-import com.snakexenzia.game.service.QuadTree;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import service.ReadFile;
 
 public class SnakeXenzia extends ApplicationAdapter {
     Sound sound;
@@ -29,13 +33,17 @@ public class SnakeXenzia extends ApplicationAdapter {
     List<GameObject> objects;
     Background background;
     int frameCount = 0;
-    Wall wall;
+    List<Wall> listWall;
+    CutInHalf speedUp;
 
     @Override
     public void create() {
         objects = new ArrayList<>();
+        listWall = new ArrayList<>();
+        speedUp = new CutInHalf();
 
-        wall = new Wall();
+        speedUp.setPos(new Vector2(64,64));
+
 
         background = new Background();
 
@@ -52,9 +60,27 @@ public class SnakeXenzia extends ApplicationAdapter {
 
         normalFood = new NormalFood();
 
+        normalFood.spawn(objects);
+
+        String pathname = ".\\maps\\data.txt";
+        List<Vector2> list = ReadFile.ReadMap(pathname);
+        for (Vector2 pos :
+                list) {
+            Wall newWall = new Wall();
+            newWall.setPos(new Vector2(pos.x * GameObject.BlockSize, pos.y * GameObject.BlockSize));
+            listWall.add(newWall);
+        }
+        loadObjects();
+        //CreateFile.CreateInPath(pathname);
+        //WriteToFile.WriteToPath(pathname);
+    }
+
+    private void loadObjects() {
+        objects.clear();
+        objects.add(speedUp);
         objects.addAll(snake.getObjects());
         objects.add(normalFood);
-        normalFood.spawn(objects);
+        objects.addAll(listWall);
     }
 
     @Override
@@ -66,22 +92,31 @@ public class SnakeXenzia extends ApplicationAdapter {
             camera.update();
 
             snake.update(frameCount, objects);
-
             if(snake.isEat){
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
-
+            if(snake.isCutHalf) {
+                loadObjects();
+                snake.isEat = false;
+            }
             spriteBatch.begin();
             background.render(spriteBatch);
             snake.render(spriteBatch);
-            normalFood.render(spriteBatch);
-            wall.render(spriteBatch);
+            RenderMap();
             spriteBatch.end();
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    private void RenderMap() {
+        normalFood.render(spriteBatch);
+        for (Wall wall : listWall) {
+            wall.render(spriteBatch);
+        }
+        speedUp.render(spriteBatch);
     }
 
     @Override
