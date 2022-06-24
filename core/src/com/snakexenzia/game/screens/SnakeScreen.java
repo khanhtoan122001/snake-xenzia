@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.SnakeGame;
-import com.snakexenzia.game.SnakeXenzia;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
 import com.snakexenzia.game.gameobjects.items.SpeedUp;
@@ -35,7 +34,7 @@ public class SnakeScreen implements Screen {
     List<Wall> listWall;
     SpeedUp speedUp;
 
-    public SnakeScreen(SnakeGame game){
+    public SnakeScreen(SnakeGame game, String pathmap){
         this.game = game;
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
@@ -61,10 +60,9 @@ public class SnakeScreen implements Screen {
 
         normalFood.spawn(objects);
 
-        String pathname = ".\\maps\\data.txt";
-        List<Vector2> list = ReadFile.ReadMap(pathname);
-        for (Vector2 pos :
-                list) {
+        List<Vector2> list = ReadFile.ReadMap(pathmap);
+
+        for (Vector2 pos : list) {
             Wall newWall = new Wall();
             newWall.setPos(new Vector2(pos.x * GameObject.BlockSize, pos.y * GameObject.BlockSize));
             listWall.add(newWall);

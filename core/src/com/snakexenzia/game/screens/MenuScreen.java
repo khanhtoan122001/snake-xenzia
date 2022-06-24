@@ -6,7 +6,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.snakexenzia.game.SnakeGame;
-import com.snakexenzia.game.SnakeXenzia;
+
+import java.util.List;
+
+import service.ReadFile;
 
 public class MenuScreen implements Screen {
     SnakeGame game;
@@ -63,7 +66,9 @@ public class MenuScreen implements Screen {
             game.spriteBatch.draw(playButtonActive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if (Gdx.input.justTouched()) {
                 //Open SnakeGame Screen
-                game.setScreen(new SnakeScreen(this.game));
+                List<String> listMap = ReadFile.ReadListMap();
+                String path = listMap.get((int) (Math.random() * listMap.size()));
+                game.setScreen(new SnakeScreen(this.game, path));
                 clickSound.play(game.VOLUMN);
             }
         } else {

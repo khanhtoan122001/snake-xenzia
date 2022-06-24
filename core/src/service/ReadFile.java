@@ -34,4 +34,20 @@ public class ReadFile {
         }
         return walls;
     }
+    public static List<String> ReadListMap() {
+        List<String> list = new ArrayList<>();
+        try {
+            File myObj = new File(".\\maps\\data.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                list.add(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
