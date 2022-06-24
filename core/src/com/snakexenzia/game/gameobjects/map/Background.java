@@ -33,4 +33,8 @@ public class Background {
         sprite.setPosition(0,0);
         sprite.draw(sb);
     }
+
+    public void dispose() {
+        tex.dispose();
+    }
 }

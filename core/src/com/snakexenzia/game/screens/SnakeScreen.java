@@ -1,8 +1,11 @@
 package com.snakexenzia.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,7 +33,6 @@ public class SnakeScreen implements Screen {
 
     OrthographicCamera camera;
     Snake snake;
-    public SpriteBatch spriteBatch;
     Rectangle rectangle;
     NormalFood normalFood;
     List<GameObject> objects;
@@ -38,13 +40,17 @@ public class SnakeScreen implements Screen {
     int frameCount = 0;
     List<Wall> listWall;
     SpeedUp speedUp;
+    BitmapFont scoreFont;
     SlowDown slowDown;
     CutInHalf cutInHalf;
     BigFood bigFood;
     BonusPoint bonusPoint;
-
+    int score;
     public SnakeScreen(SnakeGame game, String pathmap){
         this.game = game;
+
+        scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
+        score = 0;
 
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
@@ -63,13 +69,12 @@ public class SnakeScreen implements Screen {
 
         background = new Background();
 
-        snake = new Snake();
+        snake = new Snake(this);
 
         rectangle = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         snake.setScreen(rectangle);
 
-        spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
 
         camera.setToOrtho(false, 640, 480);
@@ -115,21 +120,27 @@ public class SnakeScreen implements Screen {
 
             snake.update(frameCount, objects);
             if(snake.isEat){
+                score += 10;
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
-            if(snake.isCutHalf) {
-            // ẩn nó đi
-                snake.isCutHalf = false;
-            }
-            if(snake.isPause){
+            if (snake.isPause) {
                 dispose();
+                game.setScreen(new GameoverScreen(game, score));
+                return;
             }
-            spriteBatch.begin();
-            background.render(spriteBatch);
-            snake.render(spriteBatch);
+            //if(snake.isCutHalf) {
+            //loadObjects();
+            //snake.isEat = false;
+            //}
+            game.spriteBatch.begin();
+
+            background.render(game.spriteBatch);
+            snake.render(game.spriteBatch);
             RenderMap();
-            spriteBatch.end();
+            GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "" + score);
+            scoreFont.draw(game.spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - scoreLayout.height - 10);
+            game.spriteBatch.end();
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -137,15 +148,15 @@ public class SnakeScreen implements Screen {
     }
 
     private void RenderMap() {
-        normalFood.render(spriteBatch);
+        normalFood.render(game.spriteBatch);
         for (Wall wall : listWall) {
-            wall.render(spriteBatch);
+            wall.render(game.spriteBatch);
         }
-        speedUp.render(spriteBatch);
-        slowDown.render(spriteBatch);
-        cutInHalf.render(spriteBatch);
-        bigFood.render(spriteBatch);
-        bonusPoint.render(spriteBatch);
+        speedUp.render(game.spriteBatch);
+        slowDown.render(game.spriteBatch);
+        cutInHalf.render(game.spriteBatch);
+        bigFood.render(game.spriteBatch);
+        bonusPoint.render(game.spriteBatch);
     }
 
     @Override
@@ -170,9 +181,11 @@ public class SnakeScreen implements Screen {
 
     @Override
     public void dispose() {
-        spriteBatch.dispose();
-        for(int i = 0; i < objects.size(); i++){
+        background.dispose();
+        scoreFont.dispose();
+        for(int i = 0; i < objects.size(); i++) {
             objects.get(i).dispose();
         }
+
     }
 }
