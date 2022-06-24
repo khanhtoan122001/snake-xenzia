@@ -1,6 +1,5 @@
 package com.snakexenzia.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
-import com.snakexenzia.game.gameobjects.items.CutInHalf;
 import com.snakexenzia.game.gameobjects.items.SpeedUp;
 import com.snakexenzia.game.gameobjects.map.Background;
 import com.snakexenzia.game.gameobjects.map.Wall;
@@ -29,19 +27,20 @@ public class SnakeXenzia extends Game {
     OrthographicCamera camera;
     Snake snake;
     public SpriteBatch spriteBatch;
-    Rectangle screen;
+    Rectangle rectangle;
     NormalFood normalFood;
     List<GameObject> objects;
     Background background;
     int frameCount = 0;
     List<Wall> listWall;
-    CutInHalf speedUp;
+    SpeedUp speedUp;
 
     @Override
     public void create() {
+
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
-        speedUp = new CutInHalf();
+        speedUp = new SpeedUp();
 
         speedUp.setPos(new Vector2(64,64));
 
@@ -50,9 +49,9 @@ public class SnakeXenzia extends Game {
 
         snake = new Snake();
 
-        screen = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        rectangle = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        snake.setScreen(screen);
+        snake.setScreen(rectangle);
 
         spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -97,10 +96,10 @@ public class SnakeXenzia extends Game {
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
-            if(snake.isCutHalf) {
-                loadObjects();
-                snake.isEat = false;
-            }
+            //if(snake.isCutHalf) {
+                //loadObjects();
+                //snake.isEat = false;
+            //}
             spriteBatch.begin();
             background.render(spriteBatch);
             snake.render(spriteBatch);

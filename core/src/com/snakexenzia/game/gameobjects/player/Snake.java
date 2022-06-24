@@ -29,7 +29,7 @@ public class Snake {
 
     public boolean isPause = false;
 
-    private int speed = 0;
+    private int speed = 3;
 
     public boolean isEat = false;
 
@@ -37,7 +37,9 @@ public class Snake {
 
     public int score = 0;
 
-    private int boot = 0;
+    private int boost = 0;
+    private float boostTime = 0;
+    private float bonusTime = 0;
 
     public Snake() {
         super();
@@ -106,11 +108,23 @@ public class Snake {
         insertQuardTree(objects, quadTree);
         quadTree.retrieve(objectList, this.head);
 
+        if(boost != 0){
+            boostTime -= Gdx.graphics.getDeltaTime();
+            if(boostTime <= 0)
+                boost = 0;
+        }
+
+        if(bonusTime > 0){
+            bonusTime -= Gdx.graphics.getDeltaTime();
+            if(bonusTime <= 0)
+                bonusTime = 0;
+        }
+
         // update
         head.keysPressed();
 
         if(!isPause){
-            if(frameCount % (GameObject.frameSpeed - (speed + boot)) == 0){
+            if(frameCount % (GameObject.frameSpeed - (speed + boost)) == 0){
                 List<coEvent> events = new ArrayList<>();
 
                 head.update(objectList, events);
@@ -132,7 +146,7 @@ public class Snake {
                         String coClassName = co.object.getClass().getName();
 
                         if (coClassName.equals(NormalFood.class.getName())) {
-                            AddBody(objects);
+                            EatNormalFood(objects);
                             break;
                         }
                         if(coClassName.equals(Wall.class.getName())){
@@ -144,22 +158,26 @@ public class Snake {
                             break;
                         }
                         if(coClassName.equals(SpeedUp.class.getName())){
-                            boot = 1;
+                            boost = 2;
+                            boostTime = 5;
                             break;
                         }
                         if(coClassName.equals(SlowDown.class.getName())){
-                            boot = -1;
+                            boost = -2;
+                            boostTime = 5;
                             break;
                         }
                         if(coClassName.equals(CutInHalf.class.getName())){
                             if(body.size() < 4) break;
-                            CutHalfBody();
+                            CutHalfBody(objects);
                             break;
                         }
                         if(coClassName.equals(BigFood.class.getName())){
+                            EatBigFood(objects);
                             break;
                         }
                         if(coClassName.equals(BonusPoint.class.getName())){
+                            bonusTime = 5;
                             break;
                         }
                     }
@@ -169,9 +187,11 @@ public class Snake {
 
     }
 
-    private void CutHalfBody() {
+    private void CutHalfBody(List<GameObject> objects) {
         int size = body.size();
         for (int i = 0; i < size / 2; i++) {
+            SnakeBody body1 = body.get(body.size() - 1);
+            objects.remove(body1);
             body.remove(body.size() - 1);
         }
         isCutHalf = true;
@@ -187,10 +207,28 @@ public class Snake {
         isPause = true;
     }
 
-    public void AddBody(List<GameObject> objects){
+    public void EatNormalFood(List<GameObject> objects){
         AddBody(body.get(body.size() - 1));
         objects.add(body.get(body.size() - 1));
+        if(bonusTime > 0)
+            score += 2;
+
+        else
         score++;
+        speed = score / 10;
+        if(speed > 5)
+            speed = 5;
+        head.isAddBody = false;
+        isEat = true;
+    }
+
+    public void EatBigFood(List<GameObject> objects){
+        AddBody(body.get(body.size() - 1));
+        objects.add(body.get(body.size() - 1));
+        if(bonusTime > 0)
+        score+=10;
+        else
+            score+=5;
         speed = score / 10;
         if(speed > 5)
             speed = 5;
