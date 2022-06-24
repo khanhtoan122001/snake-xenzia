@@ -5,11 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.snakexenzia.game.Snake;
+import com.snakexenzia.game.SnakeGame;
 import com.snakexenzia.game.SnakeXenzia;
 
 public class MenuScreen implements Screen {
-    Snake game;
+    SnakeGame game;
 
     private static final int EXIT_BUTTON_WIDTH = 200;
     private static final int EXIT_BUTTON_HEIGHT = 100;
@@ -26,7 +26,7 @@ public class MenuScreen implements Screen {
     Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
     Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
 
-    public MenuScreen (Snake game) {
+    public MenuScreen (SnakeGame game) {
         this.game = game;
         playButtonActive = new Texture("play_button_active.png");
         playButtonInactive = new Texture("play_button_inactive.png");
@@ -62,7 +62,8 @@ public class MenuScreen implements Screen {
         if ((Gdx.input.getX() > playX && Gdx.input.getX() < playX + PLAY_BUTTON_WIDTH) && (game.HEIGHT - Gdx.input.getY() > PLAY_BUTTON_Y && game.HEIGHT - Gdx.input.getY() < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT)) {
             game.spriteBatch.draw(playButtonActive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
             if (Gdx.input.justTouched()) {
-                //Open Snake Screen
+                //Open SnakeGame Screen
+                game.setScreen(new SnakeScreen(this.game));
                 clickSound.play(game.VOLUMN);
             }
         } else {
