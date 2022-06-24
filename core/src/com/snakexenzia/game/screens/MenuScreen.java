@@ -4,14 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 import com.snakexenzia.game.Snake;
 import com.snakexenzia.game.SnakeXenzia;
 
 public class MenuScreen implements Screen {
     Snake game;
 
-    private static final int EXIT_BUTTON_WIDTH = 200;
+    private static final int EXIT_BUTTON_WIDTH = 220;
     private static final int EXIT_BUTTON_HEIGHT = 100;
     private static final int EXIT_BUTTON_Y = 100;
     private static final int PLAY_BUTTON_WIDTH = 220;
@@ -22,9 +26,12 @@ public class MenuScreen implements Screen {
     Texture exitButtonInactive;
     Texture playButtonActive;
     Texture playButtonInactive;
+    Texture soundOn;
+    Texture soundOff;
     Texture background;
     Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
     Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
+    BitmapFont font;
 
     public MenuScreen (Snake game) {
         this.game = game;
@@ -32,6 +39,9 @@ public class MenuScreen implements Screen {
         playButtonInactive = new Texture("play_button_inactive.png");
         exitButtonActive = new Texture("exit_button_active.png");
         exitButtonInactive = new Texture("exit_button_inactive.png");
+        soundOn = new Texture("sound_on.png");
+        soundOff = new Texture("sound_off.png");
+        font = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
         background = new Texture("background.jpg");
     }
 
@@ -44,6 +54,7 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         game.spriteBatch.begin();
+        //Background
         game.spriteBatch.draw(background, 0, 0, game.WIDTH, game.HEIGHT);
         int exitX = game.WIDTH / 2 - EXIT_BUTTON_WIDTH / 2;
         int playX = game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
@@ -68,7 +79,29 @@ public class MenuScreen implements Screen {
         } else {
             game.spriteBatch.draw(playButtonInactive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
         }
+        int soundY = game.HEIGHT - 10 - 64;
+        int soundX = game.WIDTH - 10 - 64;
+        if (game.VOLUMN != 0f) {
+            game.spriteBatch.draw(soundOn, game.WIDTH - 10 - 64, game.HEIGHT - 10 - 64, 64, 64);
+        }
+        else
+            game.spriteBatch.draw(soundOff, game.WIDTH - 10 - 64, game.HEIGHT - 10 - 64, 64, 64);
+        if ((Gdx.input.getX() > soundX && Gdx.input.getX() < soundX + 64) && (game.HEIGHT - Gdx.input.getY() > soundY && game.HEIGHT - Gdx.input.getY() < soundY + 64)) {
+            if (Gdx.input.justTouched()) {
+                if (game.VOLUMN != 0f) {
+                    game.VOLUMN = 0f;
+                    backGroundMusic.setVolume(0f);
+                }
+                else {
+                    game.VOLUMN = 0.5f;
+                    backGroundMusic.setVolume(0.5f);
+                }
+            }
+        }
         game.spriteBatch.end();
+
+
+
     }
 
     @Override
