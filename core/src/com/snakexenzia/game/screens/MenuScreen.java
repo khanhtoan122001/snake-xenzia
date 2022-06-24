@@ -2,6 +2,8 @@ package com.snakexenzia.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.snakexenzia.game.Snake;
 import com.snakexenzia.game.SnakeXenzia;
@@ -20,6 +22,8 @@ public class MenuScreen implements Screen {
     Texture exitButtonInactive;
     Texture playButtonActive;
     Texture playButtonInactive;
+    Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
+    Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
 
     public MenuScreen (Snake game) {
         this.game = game;
@@ -31,7 +35,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        backGroundMusic.setVolume(game.VOLUMN);
+        backGroundMusic.play();
     }
 
     @Override
@@ -42,7 +47,8 @@ public class MenuScreen implements Screen {
         //Exit Button
         if ((Gdx.input.getX() > exitX && Gdx.input.getX() < exitX + EXIT_BUTTON_WIDTH) && (game.HEIGHT - Gdx.input.getY() > EXIT_BUTTON_Y && game.HEIGHT - Gdx.input.getY() < EXIT_BUTTON_Y + EXIT_BUTTON_HEIGHT)) {
             game.spriteBatch.draw(exitButtonActive, game.WIDTH / 2 - EXIT_BUTTON_WIDTH / 2, EXIT_BUTTON_Y, EXIT_BUTTON_WIDTH, EXIT_BUTTON_HEIGHT);
-            if (Gdx.input.isTouched()) {
+            if (Gdx.input.justTouched()) {
+                clickSound.play(game.VOLUMN);
                 Gdx.app.exit();
             }
         }
@@ -52,8 +58,9 @@ public class MenuScreen implements Screen {
         //Play Button
         if ((Gdx.input.getX() > playX && Gdx.input.getX() < playX + PLAY_BUTTON_WIDTH) && (game.HEIGHT - Gdx.input.getY() > PLAY_BUTTON_Y && game.HEIGHT - Gdx.input.getY() < PLAY_BUTTON_Y + PLAY_BUTTON_HEIGHT)) {
             game.spriteBatch.draw(playButtonActive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
-            if (Gdx.input.isTouched()) {
+            if (Gdx.input.justTouched()) {
                 //Open Snake Screen
+                clickSound.play(game.VOLUMN);
             }
         } else {
             game.spriteBatch.draw(playButtonInactive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
