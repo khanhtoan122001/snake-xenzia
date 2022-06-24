@@ -74,6 +74,7 @@ public class MenuScreen implements Screen {
             if (Gdx.input.justTouched()) {
                 //Open Snake Screen
                 clickSound.play(game.VOLUMN);
+                this.dispose();
                 game.setScreen(new SnakeScreen(game));
             }
         } else {
@@ -126,6 +127,12 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        playButtonActive.dispose();
+        playButtonInactive.dispose();
+        exitButtonInactive.dispose();
+        exitButtonActive.dispose();
+        clickSound.dispose();
+        soundOn.dispose();
+        soundOff.dispose();
     }
 }

@@ -1,5 +1,6 @@
 package com.snakexenzia.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,7 +28,6 @@ public class SnakeScreen implements Screen {
 
     OrthographicCamera camera;
     Snake snake;
-    public SpriteBatch spriteBatch;
     Rectangle rectangle;
     NormalFood normalFood;
     List<GameObject> objects;
@@ -52,13 +52,12 @@ public class SnakeScreen implements Screen {
 
         background = new Background();
 
-        snake = new Snake();
+        snake = new Snake(this);
 
         rectangle = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         snake.setScreen(rectangle);
 
-        spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
 
         camera.setToOrtho(false, 640, 480);
@@ -94,7 +93,7 @@ public class SnakeScreen implements Screen {
     @Override
     public void render(float delta) {
         try {
-            ScreenUtils.clear(0, 0, 0.2f, 1);
+//           ScreenUtils.clear(0, 0, 0.2f, 1);
 
             frameCount++;
             camera.update();
@@ -105,18 +104,23 @@ public class SnakeScreen implements Screen {
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
+            if (snake.isPause) {
+                dispose();
+                game.setScreen(new GameoverScreen(game, score));
+                return;
+            }
             //if(snake.isCutHalf) {
             //loadObjects();
             //snake.isEat = false;
             //}
-            spriteBatch.begin();
+            game.spriteBatch.begin();
 
-            background.render(spriteBatch);
-            snake.render(spriteBatch);
+            background.render(game.spriteBatch);
+            snake.render(game.spriteBatch);
             RenderMap();
             GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "" + score);
-            scoreFont.draw(spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - scoreLayout.height - 10);
-            spriteBatch.end();
+            scoreFont.draw(game.spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - scoreLayout.height - 10);
+            game.spriteBatch.end();
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -124,11 +128,11 @@ public class SnakeScreen implements Screen {
     }
 
     private void RenderMap() {
-        normalFood.render(spriteBatch);
+        normalFood.render(game.spriteBatch);
         for (Wall wall : listWall) {
-            wall.render(spriteBatch);
+            wall.render(game.spriteBatch);
         }
-        speedUp.render(spriteBatch);
+        speedUp.render(game.spriteBatch);
     }
 
     @Override
@@ -153,9 +157,11 @@ public class SnakeScreen implements Screen {
 
     @Override
     public void dispose() {
-        spriteBatch.dispose();
-        for(int i = 0; i < objects.size(); i++){
+        background.dispose();
+        scoreFont.dispose();
+        for(int i = 0; i < objects.size(); i++) {
             objects.get(i).dispose();
         }
+
     }
 }

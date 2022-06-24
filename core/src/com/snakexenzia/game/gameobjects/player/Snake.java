@@ -13,6 +13,7 @@ import com.snakexenzia.game.gameobjects.items.CutInHalf;
 import com.snakexenzia.game.gameobjects.items.SlowDown;
 import com.snakexenzia.game.gameobjects.items.SpeedUp;
 import com.snakexenzia.game.gameobjects.map.Wall;
+import com.snakexenzia.game.screens.SnakeScreen;
 import com.snakexenzia.game.service.QuadTree;
 
 import java.util.ArrayList;
@@ -40,9 +41,10 @@ public class Snake {
     private int boost = 0;
     private float boostTime = 0;
     private float bonusTime = 0;
-
-    public Snake() {
+    SnakeScreen gameScreen;
+    public Snake(SnakeScreen gameScreen) {
         super();
+        this.gameScreen = gameScreen;
         head = new SnakeHead();
         head.setPos(getPoint(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         head.updateLastPos();

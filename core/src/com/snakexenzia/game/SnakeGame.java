@@ -2,6 +2,7 @@ package com.snakexenzia.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.snakexenzia.game.screens.GameoverScreen;
 import com.snakexenzia.game.screens.MenuScreen;
 
 public class SnakeGame extends Game {
