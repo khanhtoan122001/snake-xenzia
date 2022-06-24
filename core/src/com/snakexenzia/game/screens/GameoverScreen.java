@@ -1,6 +1,7 @@
 package com.snakexenzia.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.SnakeGame;
+
+import java.awt.*;
 
 
 public class GameoverScreen implements Screen {
@@ -23,11 +26,18 @@ public class GameoverScreen implements Screen {
     BitmapFont scoreFont;
 
     public GameoverScreen(SnakeGame game, int score) {
+        Preferences prefs = Gdx.app.getPreferences("snakexenzia");
+        this.highscore = prefs.getInteger("highscore", 0);
+
         this.game = game;
         this.score = score;
         gameoverBanner = new Texture("game_over.png");
         scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
 
+        if (score > highscore) {
+            prefs.putInteger("highscore", score);
+            prefs.flush();
+        }
     }
 
     @Override
@@ -44,7 +54,11 @@ public class GameoverScreen implements Screen {
         //Draw Score
         GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "Score: \n" + score, Color.WHITE, 0, Align.left, false);
         scoreFont.draw(game.spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - GAMEOVER_HEIGHT - 10 * 2);
+        GlyphLayout highscoreLayout = new GlyphLayout(scoreFont, "Highscore: \n" + highscore, Color.WHITE, 0, Align.left, false);
+        scoreFont.draw(game.spriteBatch, highscoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - GAMEOVER_HEIGHT - 60 * 2);
         game.spriteBatch.end();
+        if (Gdx.input.justTouched())
+            game.setScreen(game.menu);
     }
 
     @Override
@@ -69,6 +83,6 @@ public class GameoverScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        scoreFont.dispose();
     }
 }
