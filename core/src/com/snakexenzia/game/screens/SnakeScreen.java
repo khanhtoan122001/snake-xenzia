@@ -10,6 +10,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.SnakeGame;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
+import com.snakexenzia.game.gameobjects.items.BigFood;
+import com.snakexenzia.game.gameobjects.items.BonusPoint;
+import com.snakexenzia.game.gameobjects.items.CutInHalf;
+import com.snakexenzia.game.gameobjects.items.SlowDown;
 import com.snakexenzia.game.gameobjects.items.SpeedUp;
 import com.snakexenzia.game.gameobjects.map.Background;
 import com.snakexenzia.game.gameobjects.map.Wall;
@@ -21,6 +25,7 @@ import java.util.List;
 import service.ReadFile;
 
 public class SnakeScreen implements Screen {
+    final Vector2 defaultPoint = new Vector2(-33,-33);
     SnakeGame game;
 
     OrthographicCamera camera;
@@ -33,14 +38,27 @@ public class SnakeScreen implements Screen {
     int frameCount = 0;
     List<Wall> listWall;
     SpeedUp speedUp;
+    SlowDown slowDown;
+    CutInHalf cutInHalf;
+    BigFood bigFood;
+    BonusPoint bonusPoint;
 
     public SnakeScreen(SnakeGame game, String pathmap){
         this.game = game;
+
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
         speedUp = new SpeedUp();
+        slowDown = new SlowDown();
+        cutInHalf = new CutInHalf();
+        bigFood = new BigFood();
+        bonusPoint = new BonusPoint();
 
-        speedUp.setPos(new Vector2(64,64));
+        speedUp.setPos(defaultPoint);
+        slowDown.setPos(defaultPoint);
+        cutInHalf.setPos(defaultPoint);
+        bigFood.setPos(defaultPoint);
+        bonusPoint.setPos(defaultPoint);
 
 
         background = new Background();
@@ -73,6 +91,10 @@ public class SnakeScreen implements Screen {
     private void loadObjects() {
         objects.clear();
         objects.add(speedUp);
+        objects.add(slowDown);
+        objects.add(bigFood);
+        objects.add(cutInHalf);
+        objects.add(bonusPoint);
         objects.addAll(snake.getObjects());
         objects.add(normalFood);
         objects.addAll(listWall);
@@ -96,10 +118,13 @@ public class SnakeScreen implements Screen {
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
-            //if(snake.isCutHalf) {
-            //loadObjects();
-            //snake.isEat = false;
-            //}
+            if(snake.isCutHalf) {
+            // ẩn nó đi
+                snake.isCutHalf = false;
+            }
+            if(snake.isPause){
+                dispose();
+            }
             spriteBatch.begin();
             background.render(spriteBatch);
             snake.render(spriteBatch);
@@ -117,6 +142,10 @@ public class SnakeScreen implements Screen {
             wall.render(spriteBatch);
         }
         speedUp.render(spriteBatch);
+        slowDown.render(spriteBatch);
+        cutInHalf.render(spriteBatch);
+        bigFood.render(spriteBatch);
+        bonusPoint.render(spriteBatch);
     }
 
     @Override

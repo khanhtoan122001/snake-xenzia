@@ -29,7 +29,7 @@ public class Snake {
 
     public boolean isPause = false;
 
-    private int speed = 3;
+    private int speed = 0;
 
     public boolean isEat = false;
 
@@ -119,6 +119,8 @@ public class Snake {
             if(bonusTime <= 0)
                 bonusTime = 0;
         }
+
+
 
         // update
         head.keysPressed();

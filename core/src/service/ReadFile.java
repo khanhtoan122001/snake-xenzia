@@ -22,7 +22,7 @@ public class ReadFile {
                 for (int i = 0; i < data.length(); i++){
                      char m = data.charAt(i);
                      if(m == '1'){
-                         walls.add(new Vector2(maxWidth - i,maxHeight - line));
+                         walls.add(new Vector2(i,maxHeight - line));
                      }
                 }
                 line++;
