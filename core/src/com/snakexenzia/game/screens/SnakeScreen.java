@@ -41,7 +41,7 @@ public class SnakeScreen implements Screen {
         this.game = game;
 
         scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
-        score = 0;
+
 
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
@@ -53,6 +53,7 @@ public class SnakeScreen implements Screen {
         background = new Background();
 
         snake = new Snake(this);
+        score = 0;
 
         rectangle = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -94,13 +95,12 @@ public class SnakeScreen implements Screen {
     public void render(float delta) {
         try {
 //           ScreenUtils.clear(0, 0, 0.2f, 1);
-
+            score = snake.score;
             frameCount++;
             camera.update();
 
             snake.update(frameCount, objects);
             if(snake.isEat){
-                score += 10;
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
