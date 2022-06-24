@@ -2,6 +2,8 @@ package com.snakexenzia.game.gameobjects.food;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,10 +18,12 @@ public class NormalFood extends GameObject {
 
     public NormalFood() {
         super();
-        this.setColor(Color.YELLOW);
+        tex = new Texture(".\\snake model\\item\\nfood.png");
+//        this.setColor(Color.YELLOW);
+        this.sprite = new Sprite(tex);
         width = BlockSize;
         height = BlockSize;
-        createGraphics();
+//        createGraphics();
     }
 
     public void spawn(List<GameObject> list) {
@@ -55,5 +59,4 @@ public class NormalFood extends GameObject {
         sprite.setPosition(pos.x, pos.y);
         sprite.draw(sb);
     }
-
 }

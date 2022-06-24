@@ -45,6 +45,7 @@ public class SnakeScreen implements Screen {
     BigFood bigFood;
     BonusPoint bonusPoint;
     int score;
+
     public SnakeScreen(SnakeGame game, String pathmap){
         this.game = game;
 
@@ -122,6 +123,7 @@ public class SnakeScreen implements Screen {
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
+
             if (snake.isPause) {
                 dispose();
                 game.setScreen(new GameoverScreen(game, score));

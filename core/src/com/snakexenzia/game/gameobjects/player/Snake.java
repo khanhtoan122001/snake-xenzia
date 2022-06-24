@@ -22,6 +22,7 @@ import java.util.List;
 public class Snake {
 
     private static final Object TAG = "snake";
+
     Rectangle screen;
 
     public SnakeHead head;
@@ -122,8 +123,6 @@ public class Snake {
                 bonusTime = 0;
         }
 
-
-
         // update
         head.keysPressed();
 
@@ -188,7 +187,6 @@ public class Snake {
                 }
             }
         }
-
     }
 
     private void CutHalfBody(List<GameObject> objects) {
