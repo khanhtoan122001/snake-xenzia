@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -50,7 +49,6 @@ public class SnakeScreen implements Screen {
         this.game = game;
 
         scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
-
 
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
@@ -115,7 +113,7 @@ public class SnakeScreen implements Screen {
     public void render(float delta) {
         try {
             ScreenUtils.clear(0, 0, 0.2f, 1);
-
+            score = snake.score;
             frameCount++;
             camera.update();
 

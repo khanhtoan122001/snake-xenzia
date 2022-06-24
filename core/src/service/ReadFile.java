@@ -11,8 +11,7 @@ import java.util.Scanner; // Import the Scanner class to read text files
 public class ReadFile {
     public static List<Vector2> ReadMap(String pathname) {
         List<Vector2> walls = new ArrayList<>();
-        int maxWidth = 20;
-        int maxHeight = 15;
+        int maxHeight = 14;
         try {
             File myObj = new File(pathname);
             int line = 0;
@@ -22,7 +21,7 @@ public class ReadFile {
                 for (int i = 0; i < data.length(); i++){
                      char m = data.charAt(i);
                      if(m == '1'){
-                         walls.add(new Vector2(i,maxHeight - line));
+                         walls.add(new Vector2(i, maxHeight - line));
                      }
                 }
                 line++;

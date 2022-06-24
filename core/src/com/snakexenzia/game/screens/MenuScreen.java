@@ -82,7 +82,7 @@ public class MenuScreen implements Screen {
                 game.setScreen(new SnakeScreen(this.game, path));
                 clickSound.play(game.VOLUMN);
                 this.dispose();
-                game.setScreen(new SnakeScreen(game));
+                game.setScreen(new SnakeScreen(game, path));
             }
         } else {
             game.spriteBatch.draw(playButtonInactive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
