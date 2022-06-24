@@ -1,6 +1,7 @@
 package com.snakexenzia.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -22,12 +23,12 @@ import java.util.List;
 
 import service.ReadFile;
 
-public class SnakeXenzia extends ApplicationAdapter {
+public class SnakeXenzia extends Game {
     Sound sound;
     Music music;
     OrthographicCamera camera;
     Snake snake;
-    SpriteBatch spriteBatch;
+    public SpriteBatch spriteBatch;
     Rectangle screen;
     NormalFood normalFood;
     List<GameObject> objects;

@@ -8,10 +8,10 @@ import com.snakexenzia.game.SnakeXenzia;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowSizeLimits(640,480,640 * 2,480 * 2);
+		config.setWindowSizeLimits(Snake.WIDTH, Snake.HEIGHT,Snake.WIDTH * 2,Snake.HEIGHT * 2);
 		config.setForegroundFPS(60);
 		config.useVsync(true);
 		config.setTitle("Snake Xenzia");
-		new Lwjgl3Application(new SnakeXenzia(), config);
+		new Lwjgl3Application(new Snake(), config);
 	}
 }
