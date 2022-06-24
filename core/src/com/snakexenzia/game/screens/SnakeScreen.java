@@ -3,6 +3,8 @@ package com.snakexenzia.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,9 +35,14 @@ public class SnakeScreen implements Screen {
     int frameCount = 0;
     List<Wall> listWall;
     SpeedUp speedUp;
-
+    BitmapFont scoreFont;
+    int score;
     public SnakeScreen(SnakeGame game){
         this.game = game;
+
+        scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
+        score = 0;
+
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
         speedUp = new SpeedUp();
@@ -94,6 +101,7 @@ public class SnakeScreen implements Screen {
 
             snake.update(frameCount, objects);
             if(snake.isEat){
+                score += 10;
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
@@ -102,9 +110,12 @@ public class SnakeScreen implements Screen {
             //snake.isEat = false;
             //}
             spriteBatch.begin();
+
             background.render(spriteBatch);
             snake.render(spriteBatch);
             RenderMap();
+            GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "" + score);
+            scoreFont.draw(spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - scoreLayout.height - 10);
             spriteBatch.end();
         }
         catch (Exception ex){
