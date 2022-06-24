@@ -22,6 +22,7 @@ public class MenuScreen implements Screen {
     Texture exitButtonInactive;
     Texture playButtonActive;
     Texture playButtonInactive;
+    Texture background;
     Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
     Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
 
@@ -31,17 +32,19 @@ public class MenuScreen implements Screen {
         playButtonInactive = new Texture("play_button_inactive.png");
         exitButtonActive = new Texture("exit_button_active.png");
         exitButtonInactive = new Texture("exit_button_inactive.png");
+        background = new Texture("background.jpg");
     }
 
     @Override
     public void show() {
         backGroundMusic.setVolume(game.VOLUMN);
+        backGroundMusic.setLooping(true);
         backGroundMusic.play();
     }
-
     @Override
     public void render(float delta) {
         game.spriteBatch.begin();
+        game.spriteBatch.draw(background, 0, 0, game.WIDTH, game.HEIGHT);
         int exitX = game.WIDTH / 2 - EXIT_BUTTON_WIDTH / 2;
         int playX = game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2;
         //Exit Button
