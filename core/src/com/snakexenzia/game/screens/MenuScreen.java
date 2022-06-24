@@ -9,11 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
-import com.snakexenzia.game.Snake;
-import com.snakexenzia.game.SnakeXenzia;
+import com.snakexenzia.game.SnakeGame;
 
 public class MenuScreen implements Screen {
-    Snake game;
+    SnakeGame game;
 
     private static final int EXIT_BUTTON_WIDTH = 220;
     private static final int EXIT_BUTTON_HEIGHT = 100;
@@ -33,7 +32,7 @@ public class MenuScreen implements Screen {
     Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
     BitmapFont font;
 
-    public MenuScreen (Snake game) {
+    public MenuScreen (SnakeGame game) {
         this.game = game;
         playButtonActive = new Texture("play_button_active.png");
         playButtonInactive = new Texture("play_button_inactive.png");
@@ -75,6 +74,7 @@ public class MenuScreen implements Screen {
             if (Gdx.input.justTouched()) {
                 //Open Snake Screen
                 clickSound.play(game.VOLUMN);
+                game.setScreen(new SnakeScreen(game));
             }
         } else {
             game.spriteBatch.draw(playButtonInactive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);

@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.snakexenzia.game.SnakeGame;
-import com.snakexenzia.game.SnakeXenzia;
 import com.snakexenzia.game.gameobjects.GameObject;
 import com.snakexenzia.game.gameobjects.food.NormalFood;
 import com.snakexenzia.game.gameobjects.items.SpeedUp;
