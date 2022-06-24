@@ -34,13 +34,13 @@ public class SnakeXenzia extends ApplicationAdapter {
     Background background;
     int frameCount = 0;
     List<Wall> listWall;
-    CutInHalf speedUp;
+    SpeedUp speedUp;
 
     @Override
     public void create() {
         objects = new ArrayList<>();
         listWall = new ArrayList<>();
-        speedUp = new CutInHalf();
+        speedUp = new SpeedUp();
 
         speedUp.setPos(new Vector2(64,64));
 
@@ -96,10 +96,10 @@ public class SnakeXenzia extends ApplicationAdapter {
                 normalFood.spawn(objects);
                 snake.isEat = false;
             }
-            if(snake.isCutHalf) {
-                loadObjects();
-                snake.isEat = false;
-            }
+            //if(snake.isCutHalf) {
+                //loadObjects();
+                //snake.isEat = false;
+            //}
             spriteBatch.begin();
             background.render(spriteBatch);
             snake.render(spriteBatch);
