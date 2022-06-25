@@ -103,8 +103,8 @@ public class MenuScreen implements Screen {
                     backGroundMusic.setVolume(0f);
                 }
                 else {
-                    game.VOLUMN = 0.5f;
-                    backGroundMusic.setVolume(0.5f);
+                    game.VOLUMN = 0.3f;
+                    backGroundMusic.setVolume(0.3f);
                 }
             }
         }
