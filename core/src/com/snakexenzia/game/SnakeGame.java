@@ -3,6 +3,7 @@ package com.snakexenzia.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.snakexenzia.game.screens.GameoverScreen;
+import com.snakexenzia.game.screens.InstructionScreen;
 import com.snakexenzia.game.screens.MenuScreen;
 
 import java.awt.*;

@@ -27,6 +27,7 @@ public class MenuScreen implements Screen {
     Texture playButtonInactive;
     Texture soundOn;
     Texture soundOff;
+    Texture helpBook;
     Texture background;
     Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
     Music backGroundMusic = Gdx.audio.newMusic(Gdx.files.internal("TemShop.mp3"));
@@ -42,6 +43,7 @@ public class MenuScreen implements Screen {
         soundOff = new Texture("sound_off.png");
         font = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
         background = new Texture("background.jpg");
+        helpBook = new Texture("helpBook.png");
     }
 
     @Override
@@ -80,6 +82,7 @@ public class MenuScreen implements Screen {
         } else {
             game.spriteBatch.draw(playButtonInactive, game.WIDTH / 2 - PLAY_BUTTON_WIDTH / 2, PLAY_BUTTON_Y, PLAY_BUTTON_WIDTH, PLAY_BUTTON_HEIGHT);
         }
+        //Sound Toggle Button
         int soundY = game.HEIGHT - 10 - 64;
         int soundX = game.WIDTH - 10 - 64;
         if (game.VOLUMN != 0f) {
@@ -97,6 +100,13 @@ public class MenuScreen implements Screen {
                     game.VOLUMN = 0.5f;
                     backGroundMusic.setVolume(0.5f);
                 }
+            }
+        }
+        //Instruction Button
+        game.spriteBatch.draw(helpBook, soundX, soundY - 64 - 10, 64, 64);
+        if ((Gdx.input.getX() > soundX && Gdx.input.getX() < soundX + 64) && (game.HEIGHT - Gdx.input.getY() > soundY - 64 - 10 && game.HEIGHT - Gdx.input.getY() < soundY + 10)) {
+            if (Gdx.input.justTouched()) {
+                game.setScreen(new InstructionScreen(game));
             }
         }
         game.spriteBatch.end();
