@@ -44,6 +44,7 @@ public class SnakeScreen implements Screen {
     private float timeSeconds = 0f;
     double durationLeftPercentage = 0;
     double duration;
+    SpriteBatch batch;
     public SnakeScreen(SnakeGame game){
         this.game = game;
         blank = new Texture("blank.png");
@@ -73,6 +74,8 @@ public class SnakeScreen implements Screen {
         normalFood = new NormalFood();
 
         normalFood.spawn(objects);
+
+        batch = new SpriteBatch();
 
         String pathname = ".\\maps\\data.txt";
         List<Vector2> list = ReadFile.ReadMap(pathname);
@@ -140,7 +143,6 @@ public class SnakeScreen implements Screen {
     }
 
     private void DrawBar(double duration) {
-        SpriteBatch batch = new SpriteBatch();
         timeSeconds += Gdx.graphics.getDeltaTime();
         if (timeSeconds > period){
             timeSeconds -= period;
@@ -161,6 +163,7 @@ public class SnakeScreen implements Screen {
         else
             batch.setColor(Color.RED);
         batch.draw(blank, snake.head.getPos().x - snake.head.getWidth() / 2, snake.head.getPos().y + snake.head.getHeight() + 10, (float) (60 * durationLeftPercentage), 10);
+        batch.draw(blank, 0, 0, (float) (Gdx.graphics.getWidth() * durationLeftPercentage), 5);
         batch.end();
     }
 
@@ -196,6 +199,7 @@ public class SnakeScreen implements Screen {
     public void dispose() {
         background.dispose();
         scoreFont.dispose();
+        batch.dispose();
         for(int i = 0; i < objects.size(); i++) {
             objects.get(i).dispose();
         }
