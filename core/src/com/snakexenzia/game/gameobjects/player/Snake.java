@@ -34,6 +34,8 @@ public class Snake {
     private int speed = 0;
 
     public boolean isEat = false;
+    public boolean isEatObj = false;
+    public boolean isEatSpecialObj = false;
 
     public boolean isCutHalf = false;
 
@@ -153,6 +155,7 @@ public class Snake {
 
                         if (coClassName.equals(NormalFood.class.getName())) {
                             EatNormalFood(objects);
+                            isEatObj = true;
                             break;
                         }
                         if(coClassName.equals(Wall.class.getName())){
@@ -168,6 +171,7 @@ public class Snake {
                             boostTime = 5;
                             startBuff = true;
                             co.object.hide();
+                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(SlowDown.class.getName())){
@@ -175,23 +179,27 @@ public class Snake {
                             boostTime = 5;
                             startBuff = true;
                             co.object.hide();
+                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(CutInHalf.class.getName())){
                             if(body.size() < 4) break;
                             CutHalfBody(objects);
                             co.object.hide();
+                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(BigFood.class.getName())){
                             EatBigFood(objects);
                             co.object.hide();
+                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(BonusPoint.class.getName())){
                             bonusTime = 5;
                             startBuff = true;
                             co.object.hide();
+                            isEatSpecialObj = true;
                             break;
                         }
                     }

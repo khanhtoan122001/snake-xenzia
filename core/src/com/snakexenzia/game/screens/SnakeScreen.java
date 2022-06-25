@@ -2,6 +2,7 @@ package com.snakexenzia.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +39,10 @@ public class SnakeScreen implements Screen {
 
     final Vector2 defaultPoint = new Vector2(-33,-33);
     SnakeGame game;
+
+    Sound eatObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\normal food eating.ogg"));
+    Sound eatSpecialObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\special food eating.ogg"));
+    //special food eating
 
     OrthographicCamera camera;
     Snake snake;
@@ -176,6 +181,16 @@ public class SnakeScreen implements Screen {
                 snake.startBuff = false;
                 durationLeftPercentage = 1;
                 duration = 5;
+            }
+
+            if(snake.isEatObj) {
+                snake.isEatObj = false;
+                eatObj.play();
+            }
+
+            if(snake.isEatSpecialObj) {
+                snake.isEatSpecialObj = false;
+                eatSpecialObj.play(0.3f);
             }
 
             game.spriteBatch.begin();
