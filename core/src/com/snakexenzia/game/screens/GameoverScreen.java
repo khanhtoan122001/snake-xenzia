@@ -24,7 +24,7 @@ public class GameoverScreen implements Screen {
 
     Texture gameoverBanner;
     BitmapFont scoreFont;
-
+    boolean gotNewHighscore = false;
     public GameoverScreen(SnakeGame game, int score) {
         Preferences prefs = Gdx.app.getPreferences("snakexenzia");
         this.highscore = prefs.getInteger("highscore", 0);
@@ -37,6 +37,8 @@ public class GameoverScreen implements Screen {
         if (score > highscore) {
             prefs.putInteger("highscore", score);
             prefs.flush();
+            gotNewHighscore = true;
+            highscore = score;
         }
     }
 
@@ -56,6 +58,9 @@ public class GameoverScreen implements Screen {
         scoreFont.draw(game.spriteBatch, scoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - GAMEOVER_HEIGHT - 10 * 2);
         GlyphLayout highscoreLayout = new GlyphLayout(scoreFont, "Highscore: \n" + highscore, Color.WHITE, 0, Align.left, false);
         scoreFont.draw(game.spriteBatch, highscoreLayout, game.WIDTH / 2 - scoreLayout.width / 2, game.HEIGHT - GAMEOVER_HEIGHT - 60 * 2);
+        GlyphLayout newHighscoreLayout = new GlyphLayout(scoreFont, "New highscore!\n", Color.YELLOW, 0, Align.left, false);
+        if (gotNewHighscore)
+            scoreFont.draw(game.spriteBatch, newHighscoreLayout, game.WIDTH / 2 - newHighscoreLayout.width / 2, 50);
         game.spriteBatch.end();
         if (Gdx.input.justTouched())
             game.setScreen(game.menu);
