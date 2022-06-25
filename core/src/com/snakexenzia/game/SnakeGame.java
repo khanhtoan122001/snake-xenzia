@@ -12,7 +12,7 @@ public class SnakeGame extends Game {
     public static MenuScreen menu;
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480;
-    public static float VOLUMN = 0.5f;
+    public static float VOLUMN = 0.3f;
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();

@@ -12,5 +12,6 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setTitle("SnakeGame Xenzia");
 		new Lwjgl3Application(new SnakeGame(), config);
+
 	}
 }
