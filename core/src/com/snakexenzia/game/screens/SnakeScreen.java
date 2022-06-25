@@ -149,26 +149,29 @@ public class SnakeScreen implements Screen {
 
             if(snake.isEat){
                 snake.isEat = false;
-                int nah = (int) (Math.random() * 10);
-                switch (nah) {
-                    case SPEEDUP_ID:
-                        speedUp.spawn(objects);
-                        break;
-                    case SLOWDOWN_ID:
-                        slowDown.spawn(objects);
-                        break;
-                    case CUTINHALF_ID:
-                        cutInHalf.spawn(objects);
-                        break;
-                    case BIGFOOD_ID:
-                        bigFood.spawn(objects);
-                        break;
-                    case BONUSPOINT_ID:
-                        bonusPoint.spawn(objects);
-                        break;
-                    default:
-                        break;
+                if(Math.random() * 10 <= 2){
+                    int nah = (int) (Math.random() * 5);
+                    switch (nah) {
+                        case SPEEDUP_ID:
+                            speedUp.spawn(objects);
+                            break;
+                        case SLOWDOWN_ID:
+                            slowDown.spawn(objects);
+                            break;
+                        case CUTINHALF_ID:
+                            cutInHalf.spawn(objects);
+                            break;
+                        case BIGFOOD_ID:
+                            bigFood.spawn(objects);
+                            break;
+                        case BONUSPOINT_ID:
+                            bonusPoint.spawn(objects);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
                 normalFood.spawn(objects);
             }
 
