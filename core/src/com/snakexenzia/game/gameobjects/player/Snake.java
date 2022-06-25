@@ -168,7 +168,7 @@ public class Snake {
                         }
                         if(coClassName.equals(SpeedUp.class.getName())){
                             boost = 2;
-                            boostTime = 5;
+                            boostTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;
@@ -176,7 +176,7 @@ public class Snake {
                         }
                         if(coClassName.equals(SlowDown.class.getName())){
                             boost = -2;
-                            boostTime = 5;
+                            boostTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;
@@ -195,7 +195,7 @@ public class Snake {
                             break;
                         }
                         if(coClassName.equals(BonusPoint.class.getName())){
-                            bonusTime = 5;
+                            bonusTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;

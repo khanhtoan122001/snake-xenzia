@@ -184,7 +184,7 @@ public class SnakeScreen implements Screen {
             if(snake.startBuff){
                 snake.startBuff = false;
                 durationLeftPercentage = 1;
-                duration = 5;
+                duration = 10;
             }
 
             if(snake.isEatObj) {
