@@ -42,6 +42,7 @@ public class SnakeScreen implements Screen {
 
     Sound eatObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\normal food eating.ogg"));
     Sound eatSpecialObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\special food eating.ogg"));
+    Sound eatCutInHalfObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\cut in half.mp3"));
     //special food eating
 
     OrthographicCamera camera;
@@ -148,26 +149,29 @@ public class SnakeScreen implements Screen {
 
             if(snake.isEat){
                 snake.isEat = false;
-                int nah = (int) (Math.random() * 10);
-                switch (nah) {
-                    case SPEEDUP_ID:
-                        speedUp.spawn(objects);
-                        break;
-                    case SLOWDOWN_ID:
-                        slowDown.spawn(objects);
-                        break;
-                    case CUTINHALF_ID:
-                        cutInHalf.spawn(objects);
-                        break;
-                    case BIGFOOD_ID:
-                        bigFood.spawn(objects);
-                        break;
-                    case BONUSPOINT_ID:
-                        bonusPoint.spawn(objects);
-                        break;
-                    default:
-                        break;
+                if(Math.random() * 10 <= 2){
+                    int nah = (int) (Math.random() * 5);
+                    switch (nah) {
+                        case SPEEDUP_ID:
+                            speedUp.spawn(objects);
+                            break;
+                        case SLOWDOWN_ID:
+                            slowDown.spawn(objects);
+                            break;
+                        case CUTINHALF_ID:
+                            cutInHalf.spawn(objects);
+                            break;
+                        case BIGFOOD_ID:
+                            bigFood.spawn(objects);
+                            break;
+                        case BONUSPOINT_ID:
+                            bonusPoint.spawn(objects);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
                 normalFood.spawn(objects);
             }
 
@@ -180,7 +184,7 @@ public class SnakeScreen implements Screen {
             if(snake.startBuff){
                 snake.startBuff = false;
                 durationLeftPercentage = 1;
-                duration = 5;
+                duration = 10;
             }
 
             if(snake.isEatObj) {
@@ -191,6 +195,11 @@ public class SnakeScreen implements Screen {
             if(snake.isEatSpecialObj) {
                 snake.isEatSpecialObj = false;
                 eatSpecialObj.play(0.3f);
+            }
+
+            if(snake.isCutHalf) {
+                snake.isCutHalf = false;
+                eatCutInHalfObj.play();
             }
 
             game.spriteBatch.begin();

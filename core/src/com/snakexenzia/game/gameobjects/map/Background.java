@@ -23,7 +23,7 @@ public class Background {
 
         pixmap = new Pixmap(640, 480, Pixmap.Format.RGBA8888);
 
-        tex = new Texture(Gdx.files.internal("map.png"));
+        tex = new Texture(Gdx.files.internal("background.jpg"));
 
         sprite = new Sprite(tex);
 

@@ -168,7 +168,7 @@ public class Snake {
                         }
                         if(coClassName.equals(SpeedUp.class.getName())){
                             boost = 2;
-                            boostTime = 5;
+                            boostTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;
@@ -176,7 +176,7 @@ public class Snake {
                         }
                         if(coClassName.equals(SlowDown.class.getName())){
                             boost = -2;
-                            boostTime = 5;
+                            boostTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;
@@ -186,7 +186,6 @@ public class Snake {
                             if(body.size() < 4) break;
                             CutHalfBody(objects);
                             co.object.hide();
-                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(BigFood.class.getName())){
@@ -196,7 +195,7 @@ public class Snake {
                             break;
                         }
                         if(coClassName.equals(BonusPoint.class.getName())){
-                            bonusTime = 5;
+                            bonusTime = 10;
                             startBuff = true;
                             co.object.hide();
                             isEatSpecialObj = true;
@@ -254,7 +253,6 @@ public class Snake {
         if(speed > 5)
             speed = 5;
         head.isAddBody = false;
-        isEat = true;
     }
 
     public List<GameObject> getObjects() {
