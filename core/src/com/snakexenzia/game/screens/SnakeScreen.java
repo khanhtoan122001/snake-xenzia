@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.snakexenzia.game.SnakeGame;
 import com.snakexenzia.game.gameobjects.GameObject;
@@ -28,6 +30,12 @@ import java.util.List;
 import service.ReadFile;
 
 public class SnakeScreen implements Screen {
+    final int SPEEDUP_ID = 1;
+    final int SLOWDOWN_ID = 2;
+    final int CUTINHALF_ID = 3;
+    final int BIGFOOD_ID = 4;
+    final int BONUSPOINT_ID = 5;
+
     final Vector2 defaultPoint = new Vector2(-33,-33);
     SnakeGame game;
 
@@ -88,7 +96,6 @@ public class SnakeScreen implements Screen {
 
         normalFood = new NormalFood();
 
-        normalFood.spawn(objects);
         batch = new SpriteBatch();
         List<Vector2> list = ReadFile.ReadMap(pathmap);
 
@@ -98,6 +105,7 @@ public class SnakeScreen implements Screen {
             listWall.add(newWall);
         }
         loadObjects();
+        normalFood.spawn(objects);
     }
 
     private void loadObjects() {
@@ -125,12 +133,37 @@ public class SnakeScreen implements Screen {
             frameCount++;
             camera.update();
 
+            bonusPoint.update(delta);
+            speedUp.update(delta);
+            slowDown.update(delta);
+            cutInHalf.update(delta);
+            bigFood.update(delta);
+
             snake.update(frameCount, objects);
+
             if(snake.isEat){
                 normalFood.spawn(objects);
                 snake.isEat = false;
-                durationLeftPercentage = 1;
-                duration = 5;
+                int nah = (int) (Math.random() * 10);
+                switch (nah) {
+                    case SPEEDUP_ID:
+                        speedUp.spawn(objects);
+                        break;
+                    case SLOWDOWN_ID:
+                        slowDown.spawn(objects);
+                        break;
+                    case CUTINHALF_ID:
+                        cutInHalf.spawn(objects);
+                        break;
+                    case BIGFOOD_ID:
+                        bigFood.spawn(objects);
+                        break;
+                    case BONUSPOINT_ID:
+                        bonusPoint.spawn(objects);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (snake.isPause) {
@@ -138,10 +171,12 @@ public class SnakeScreen implements Screen {
                 game.setScreen(new GameoverScreen(game, score));
                 return;
             }
-            //if(snake.isCutHalf) {
-            //loadObjects();
-            //snake.isEat = false;
-            //}
+
+            if(snake.startBuff){
+                snake.startBuff = false;
+                durationLeftPercentage = 1;
+                duration = 5;
+            }
 
             game.spriteBatch.begin();
 

@@ -2,6 +2,8 @@ package com.snakexenzia.game.gameobjects.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -10,17 +12,31 @@ import com.snakexenzia.game.gameobjects.GameObject;
 import java.util.List;
 
 public class SlowDown extends GameObject {
-    public int time = 5;
+    float time = 0;
     public SlowDown(){
         super();
-        this.setColor(Color.BLACK);
+        tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");
+        this.sprite = new Sprite(tex);
         width = BlockSize;
         height = BlockSize;
-        createGraphics();
     }
+
+    public void update(float delta) {
+        if(time > 0) {
+            time -= delta;
+            if(time <= 0)
+                hide();
+        }
+        else {
+            time = 0;
+        }
+    }
+
 
     public void spawn(List<GameObject> list) {
         int x = 0, y = 0;
+        time = 5;
+
         while(true){
             x = (MathUtils.random(0, Gdx.graphics.getWidth() - BlockSize)) / BlockSize;
             y = (MathUtils.random(0, Gdx.graphics.getHeight() - BlockSize)) / BlockSize;

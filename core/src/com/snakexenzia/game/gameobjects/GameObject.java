@@ -59,6 +59,10 @@ public abstract class GameObject {
 
     }
 
+    public void hide(){
+        setPos(new Vector2(-33,-33));
+    }
+
     public abstract void render(SpriteBatch sb);
 
     public void calcCollision(List<GameObject> objects, List<coEvent> coEvents){

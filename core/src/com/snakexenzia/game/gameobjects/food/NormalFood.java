@@ -18,7 +18,7 @@ public class NormalFood extends GameObject {
 
     public NormalFood() {
         super();
-        tex = new Texture(".\\snake model\\item\\nfood.png");
+        tex = new Texture(".\\snake model\\item\\strawberry-icon.png");
 //        this.setColor(Color.YELLOW);
         this.sprite = new Sprite(tex);
         width = BlockSize;

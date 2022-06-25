@@ -42,6 +42,9 @@ public class Snake {
     private int boost = 0;
     private float boostTime = 0;
     private float bonusTime = 0;
+
+    public boolean startBuff = false;
+
     SnakeScreen gameScreen;
     public Snake(SnakeScreen gameScreen) {
         super();
@@ -163,24 +166,32 @@ public class Snake {
                         if(coClassName.equals(SpeedUp.class.getName())){
                             boost = 2;
                             boostTime = 5;
+                            startBuff = true;
+                            co.object.hide();
                             break;
                         }
                         if(coClassName.equals(SlowDown.class.getName())){
                             boost = -2;
                             boostTime = 5;
+                            startBuff = true;
+                            co.object.hide();
                             break;
                         }
                         if(coClassName.equals(CutInHalf.class.getName())){
                             if(body.size() < 4) break;
                             CutHalfBody(objects);
+                            co.object.hide();
                             break;
                         }
                         if(coClassName.equals(BigFood.class.getName())){
                             EatBigFood(objects);
+                            co.object.hide();
                             break;
                         }
                         if(coClassName.equals(BonusPoint.class.getName())){
                             bonusTime = 5;
+                            startBuff = true;
+                            co.object.hide();
                             break;
                         }
                     }
