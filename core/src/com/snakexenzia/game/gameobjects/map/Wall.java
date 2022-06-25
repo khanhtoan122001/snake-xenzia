@@ -14,7 +14,7 @@ public class Wall extends GameObject {
 
     @Override
     protected void createGraphics() {
-        tex = new Texture(Gdx.files.internal("wall-block.png"));
+        tex = new Texture(Gdx.files.internal(".\\snake model\\wall.jpg"));
         sprite = new Sprite(tex);
     }
 

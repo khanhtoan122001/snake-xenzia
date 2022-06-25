@@ -48,8 +48,7 @@ public abstract class GameObject {
         pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
 //        pixmap.fill();
-        pixmap.fillRectangle(3, 3, width - 6, height - 6);
-
+        pixmap.fillCircle(width / 2, height / 2, width / 2 - 2);
         tex = new Texture(pixmap);
 
         sprite = new Sprite(tex);
