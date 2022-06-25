@@ -14,7 +14,7 @@ import java.util.List;
 public class BigFood extends GameObject {
     public BigFood(){
         super();
-        tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");
+        tex = new Texture(".\\snake model\\item\\bigfood.png");
         this.sprite = new Sprite(tex);
         width = BlockSize;
         height = BlockSize;
