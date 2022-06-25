@@ -42,6 +42,7 @@ public class SnakeScreen implements Screen {
 
     Sound eatObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\normal food eating.ogg"));
     Sound eatSpecialObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\special food eating.ogg"));
+    Sound eatCutInHalfObj = Gdx.audio.newSound(Gdx.files.internal(".\\sound\\cut in half.mp3"));
     //special food eating
 
     OrthographicCamera camera;
@@ -191,6 +192,11 @@ public class SnakeScreen implements Screen {
             if(snake.isEatSpecialObj) {
                 snake.isEatSpecialObj = false;
                 eatSpecialObj.play(0.3f);
+            }
+
+            if(snake.isCutHalf) {
+                snake.isCutHalf = false;
+                eatCutInHalfObj.play();
             }
 
             game.spriteBatch.begin();

@@ -186,7 +186,6 @@ public class Snake {
                             if(body.size() < 4) break;
                             CutHalfBody(objects);
                             co.object.hide();
-                            isEatSpecialObj = true;
                             break;
                         }
                         if(coClassName.equals(BigFood.class.getName())){
@@ -254,7 +253,6 @@ public class Snake {
         if(speed > 5)
             speed = 5;
         head.isAddBody = false;
-        isEat = true;
     }
 
     public List<GameObject> getObjects() {
