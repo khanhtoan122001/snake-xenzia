@@ -12,7 +12,6 @@ import com.snakexenzia.game.gameobjects.GameObject;
 import java.util.List;
 
 public class BonusPoint extends GameObject {
-    int time = 0;
     public BonusPoint(){
         super();
         tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");

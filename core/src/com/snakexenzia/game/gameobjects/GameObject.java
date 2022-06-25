@@ -17,6 +17,7 @@ public abstract class GameObject {
     public static final int BlockSize = 32;
     public static final int frameSpeed = 8;
 
+    protected float time = 0;
 
     protected Vector2 pos, dim, lastPos;
     protected float speed;
@@ -61,6 +62,7 @@ public abstract class GameObject {
 
     public void hide(){
         setPos(new Vector2(-33,-33));
+        time = 0;
     }
 
     public abstract void render(SpriteBatch sb);

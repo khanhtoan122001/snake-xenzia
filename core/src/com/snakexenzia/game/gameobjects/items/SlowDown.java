@@ -12,7 +12,6 @@ import com.snakexenzia.game.gameobjects.GameObject;
 import java.util.List;
 
 public class SlowDown extends GameObject {
-    float time = 0;
     public SlowDown(){
         super();
         tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");

@@ -142,7 +142,6 @@ public class SnakeScreen implements Screen {
             snake.update(frameCount, objects);
 
             if(snake.isEat){
-                normalFood.spawn(objects);
                 snake.isEat = false;
                 int nah = (int) (Math.random() * 10);
                 switch (nah) {
@@ -164,6 +163,7 @@ public class SnakeScreen implements Screen {
                     default:
                         break;
                 }
+                normalFood.spawn(objects);
             }
 
             if (snake.isPause) {

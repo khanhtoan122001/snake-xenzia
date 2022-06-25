@@ -12,7 +12,6 @@ import com.snakexenzia.game.gameobjects.GameObject;
 import java.util.List;
 
 public class BigFood extends GameObject {
-    int time = 0;
     public BigFood(){
         super();
         tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");
@@ -30,8 +29,7 @@ public class BigFood extends GameObject {
             y = (MathUtils.random(0, Gdx.graphics.getHeight() - BlockSize)) / BlockSize;
             Vector2 pos = new Vector2(x * BlockSize,y * BlockSize);
             boolean isOk = true;
-            for (GameObject obj :
-                    list) {
+            for (GameObject obj : list) {
                 if (obj.getClass() != this.getClass()){
                     if(obj.getPos().equals(pos)){
                         isOk = false;

@@ -12,7 +12,6 @@ import com.snakexenzia.game.gameobjects.GameObject;
 import java.util.List;
 
 public class SpeedUp extends GameObject {
-    float time = 0;
     public SpeedUp(){
         super();
         tex = new Texture(".\\snake model\\item\\62990-pill-icon.png");
