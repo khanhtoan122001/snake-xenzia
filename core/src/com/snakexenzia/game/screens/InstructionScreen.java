@@ -74,7 +74,7 @@ public class InstructionScreen implements Screen {
             Texture pill = new Texture("snake model/item/62990-pill-icon.png");
             game.spriteBatch.draw(pill, startLine, (game.HEIGHT - 20 * 2 - 60) - 32 - 60 - 10, 32, 32);
             CharSequence pillDes = "x0.5 snake length";
-            font.setColor(Color.RED);
+            font.setColor(Color.CORAL);
             font.draw(game.spriteBatch, pillDes, startLine + 32 + 10, (game.HEIGHT - 20 * 2 - 60) - 60 - 10 - 12);
             font.setColor(Color.BLACK);
             //2nd item
